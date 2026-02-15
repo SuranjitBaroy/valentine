@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine Surprise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+    }
+
+    /* Fade animation */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .fade-in {
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+
+    /* Popup animation */
+    .popup {
+      transform: scale(0.5);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .popup.show {
+      transform: scale(1);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-r from-pink-200 via-pink-100 to-rose-200 flex items-center justify-center h-screen overflow-hidden relative">
+
+  <!-- Floating Hearts -->
+  <div id="hearts-container"></div>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="text-center z-10 fade-in">
+    <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-8 animate-bounce">
+      Will you be my Valentine? 💖
+    </h1>
+
+    <button onclick="openModal()" 
+      class="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full text-lg shadow-xl transition duration-300 hover:scale-110">
+      Touch Here
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div id="valentineModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div id="popupBox" class="bg-white rounded-2xl p-8 text-center shadow-2xl relative w-80 popup">
+
+      <button onclick="closeModal()" 
+        class="absolute top-2 right-3 text-gray-500 text-xl font-bold hover:text-red-500">
+        ×
+      </button>
+
+      <img src="love.jpeg" 
+           alt="Love Picture" 
+           class="w-40 mx-auto mb-6 rounded-lg animate-pulse">
+
+      <h2 class="text-3xl font-bold text-pink-600 animate-bounce">
+        I Love You 💙
+      </h2>
+
+    </div>
+  </div>
+
+  <script>
+    const main = document.getElementById("mainContent");
+    const modal = document.getElementById("valentineModal");
+    const popup = document.getElementById("popupBox");
+
+    function openModal() {
+      main.classList.add("fade-out");
+
+      setTimeout(() => {
+        main.classList.add("hidden");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+        setTimeout(() => {
+          popup.classList.add("show");
+        }, 100);
+      }, 600);
+    }
+
+    function closeModal() {
+      popup.classList.remove("show");
+
+      setTimeout(() => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        main.classList.remove("hidden");
+        main.classList.remove("fade-out");
+      }, 500);
+    }
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.getElementById("hearts-container").appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
